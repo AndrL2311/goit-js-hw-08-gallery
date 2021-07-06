@@ -63,3 +63,25 @@ const galleryItems = [
     description: 'Lighthouse Coast Sea',
   },
 ];
+
+// -->> Создание и рендер разметки по массиву данных `galleryItems` из `app.js` и предоставленному шаблону.
+
+const makeImagesTemplateMarkup = images => {
+  const { preview, description } = images;
+  return `
+  <li class="gallery__item">
+  <img class="gallery__image"
+  src=${preview}
+  alt=${description}
+  />
+  </li>
+  `;
+};
+
+const galleryEl = document.querySelector('.gallery');
+
+const makeImagesTemplate = galleryItems.map(makeImagesTemplateMarkup).join('');
+
+galleryEl.insertAdjacentHTML('beforeend', makeImagesTemplate);
+
+// -->> Реализация делегирования на галерее `ul.js-gallery` и получение `url` большого изображения.
