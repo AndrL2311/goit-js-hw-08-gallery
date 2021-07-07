@@ -64,24 +64,80 @@ const galleryItems = [
   },
 ];
 
+const refs = {
+  gallery: document.querySelector('ul.js-gallery'),
+  lightbox: document.querySelector('div.lightbox'),
+  linhtboxImg: document.querySelector('img.lightbox__image'),
+  linhtboxBtn: document.querySelector('button[data-action="close-lightbox"]'),
+
+};
 // -->> Создание и рендер разметки по массиву данных `galleryItems` из `app.js` и предоставленному шаблону.
 
+// const makeImagesTemplateMarkup = images => {
+//   const { preview, description } = images;
+//   return `
+//   <li class="gallery__item">
+//   <img class="gallery__image"
+//   src=${preview}
+//   alt=${description}
+//   />
+//   </li>
+//   `;
+// };
+
 const makeImagesTemplateMarkup = images => {
-  const { preview, description } = images;
+  const { preview, original, description } = images;
   return `
   <li class="gallery__item">
-  <img class="gallery__image"
-  src=${preview}
-  alt=${description}
-  />
-  </li>
+  <a
+    class="gallery__link"
+    href=${original}
+  >
+    <img
+      class="gallery__image"
+      src=${preview}
+      data-source=${original}
+      alt=${description}
+    />
+  </a>
+</li>
   `;
 };
 
-const galleryEl = document.querySelector('.gallery');
-
 const makeImagesTemplate = galleryItems.map(makeImagesTemplateMarkup).join('');
 
-galleryEl.insertAdjacentHTML('beforeend', makeImagesTemplate);
+refs.gallery.insertAdjacentHTML('beforeend', makeImagesTemplate);
 
 // -->> Реализация делегирования на галерее `ul.js-gallery` и получение `url` большого изображения.
+refs.gallery.addEventListener('click', galleryClickHandler);
+
+function galleryClickHandler(event) {
+  
+  event.preventDefault();
+  if (event.target.nodeName !== 'IMG') {
+    return;
+  }
+  console.dir(event.target);
+
+  // Открытие модального окна по клику на элементе галереи.
+  modalOpenClick(event);
+  // Закрытие модального окна по клику на кнопку
+  refs.linhtboxBtn.addEventListener('click', modalClose);
+
+};
+
+function modalOpenClick(event) {
+ refs.lightbox.classList.add('is-open');
+   console.dir(event);
+  refs.linhtboxImg.src = event.target.dataset.source;
+  refs.linhtboxImg.alt = event.target.alt; 
+};
+
+// Закрытие модального окна по клику на кнопку
+
+function modalClose() {
+  refs.lightbox.classList.remove('is-open');
+  refs.linhtboxBtn.removeEventListener('click', modalClose);
+  refs.linhtboxImg.src = '';
+  refs.linhtboxImg.alt = '';
+};
