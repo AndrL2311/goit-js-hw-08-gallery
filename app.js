@@ -71,20 +71,9 @@ const refs = {
   linhtboxBtn: document.querySelector('button[data-action="close-lightbox"]'),
   overlay: document.querySelector(".lightbox__overlay"),
 };
+let indexOpenImg;
+
 // -->> Создание и рендер разметки по массиву данных `galleryItems` из `app.js` и предоставленному шаблону.
-
-// const makeImagesTemplateMarkup = images => {
-//   const { preview, description } = images;
-//   return `
-//   <li class="gallery__item">
-//   <img class="gallery__image"
-//   src=${preview}
-//   alt=${description}
-//   />
-//   </li>
-//   `;
-// };
-
 const makeImagesTemplateMarkup = (images, i) => {
   const { preview, original, description } = images;
   return `
@@ -106,8 +95,8 @@ const makeImagesTemplateMarkup = (images, i) => {
 };
 
 const makeImagesTemplate = galleryItems.map(makeImagesTemplateMarkup).join("");
-
 refs.gallery.insertAdjacentHTML("beforeend", makeImagesTemplate);
+// <<--
 
 // -->> Реализация делегирования на галерее `ul.js-gallery` и получение `url` большого изображения.
 refs.gallery.addEventListener("click", galleryClickHandler);
@@ -117,14 +106,19 @@ function galleryClickHandler(event) {
   if (event.target.nodeName !== "IMG") {
     return;
   }
-  console.dir(event.target);
+  // Индекс открытого изображения
+  indexOpenImg = Number(event.target.dataset.index);
+
   // Открытие модального окна по клику на элементе галереи
   modalOpenClick();
+
   // Подмена значения атрибутов изображения модального окна
   refs.linhtboxImg.src = event.target.dataset.source;
   refs.linhtboxImg.alt = event.target.alt;
 }
+// <<--
 
+// Функция открытия модалки
 function modalOpenClick() {
   refs.lightbox.classList.add("is-open");
   window.addEventListener("keydown", pressKey);
@@ -132,6 +126,7 @@ function modalOpenClick() {
   refs.overlay.addEventListener("click", overlayClick);
 }
 
+// Функция закрытия модалки
 function modalClose() {
   refs.lightbox.classList.remove("is-open");
   refs.linhtboxBtn.removeEventListener("click", modalClose);
@@ -141,29 +136,34 @@ function modalClose() {
   refs.linhtboxImg.alt = "";
 }
 
+// Функция обработки Click на оверлей
 function overlayClick(event) {
   if (event.currentTarget === event.target) {
     modalClose();
   }
 }
 
-// Закрытие модального окна по клавише esc
-
+// Фукция обработки нажатых клавиш
 function pressKey(event) {
-  console.log(event);
-
-  // if (event.key !== "Escape") {
-  //   return;
-  // } else {
-  //   modalClose();
-  // }
-
-  // console.log(event.key);
-  if (event.key !== "ArrowLeft") {
-    return;
-  } else {
-    console.dir("left");
-    // refs.linhtboxImg.src = ;
-    // refs.linhtboxImg.alt = ;
+    switch (event.key) {
+    case "Escape":
+      modalClose();
+      break;
+    case "ArrowLeft":
+      // console.log(Boolean(refs.gallery.children[indexOpenImg].previousElementSibling));
+      if (refs.gallery.children[indexOpenImg].previousElementSibling) {
+        refs.linhtboxImg.src = refs.gallery.children[indexOpenImg].previousElementSibling.childNodes[1].childNodes[1].dataset.source;
+        refs.linhtboxImg.alt = refs.gallery.children[indexOpenImg].previousElementSibling.childNodes[1].childNodes[1].alt;
+        indexOpenImg--;
+      }
+      break;
+    case "ArrowRight":
+      // console.log(Boolean(refs.gallery.children[indexOpenImg].nextElementSibling));
+      if (refs.gallery.children[indexOpenImg].nextElementSibling) {
+        refs.linhtboxImg.src = refs.gallery.children[indexOpenImg].nextElementSibling.childNodes[1].childNodes[1].dataset.source;
+        refs.linhtboxImg.alt = refs.gallery.children[indexOpenImg].nextElementSibling.childNodes[1].childNodes[1].alt;
+        indexOpenImg++;
+      }
+      break;
   }
 }
