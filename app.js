@@ -152,18 +152,18 @@ function overlayClick(event) {
 function pressKey(event) {
   console.log(event);
 
-  if (event.key !== "Escape") {
-    return;
-  } else {
-    modalClose();
-  }
-
-  // console.log(event.key);
-  // if (event.key !== "ArrowLeft") {
+  // if (event.key !== "Escape") {
   //   return;
   // } else {
-  //   console.dir(event.target.dataset.index);
-  //   // refs.linhtboxImg.src = ;
-  //   // refs.linhtboxImg.alt = ;
+  //   modalClose();
   // }
+
+  // console.log(event.key);
+  if (event.key !== "ArrowLeft") {
+    return;
+  } else {
+    console.dir("left");
+    // refs.linhtboxImg.src = ;
+    // refs.linhtboxImg.alt = ;
+  }
 }
