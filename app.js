@@ -85,7 +85,7 @@ const refs = {
 //   `;
 // };
 
-const makeImagesTemplateMarkup = (images) => {
+const makeImagesTemplateMarkup = (images, i) => {
   const { preview, original, description } = images;
   return `
   <li class="gallery__item">
@@ -97,6 +97,7 @@ const makeImagesTemplateMarkup = (images) => {
       class="gallery__image"
       src=${preview}
       data-source=${original}
+      data-index=${i}
       alt=${description}
     />
   </a>
@@ -116,7 +117,7 @@ function galleryClickHandler(event) {
   if (event.target.nodeName !== "IMG") {
     return;
   }
-  console.log(event.target.dataset);
+  console.dir(event.target);
   // Открытие модального окна по клику на элементе галереи
   modalOpenClick();
   // Подмена значения атрибутов изображения модального окна
