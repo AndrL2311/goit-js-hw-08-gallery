@@ -73,7 +73,7 @@ const refs = {
 };
 let indexOpenImg;
 
-// -->> Создание и рендер разметки по массиву данных `galleryItems` из `app.js` и предоставленному шаблону.
+// -->> Создание и рендер разметки по массиву данных `galleryItems` по предоставленному шаблону.
 const makeImagesTemplateMarkup = (images, i) => {
   const { preview, original, description } = images;
   return `
