@@ -96,6 +96,7 @@ const makeImagesTemplateMarkup = (images, i) => {
 // ----
 
 // 001
+// ---- 22222
 const makeImagesTemplate = galleryItems.map(makeImagesTemplateMarkup).join("");
 refs.gallery.insertAdjacentHTML("beforeend", makeImagesTemplate);
 // <<--
