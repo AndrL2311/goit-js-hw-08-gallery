@@ -93,7 +93,7 @@ const makeImagesTemplateMarkup = (images, i) => {
 </li>
   `;
 };
-
+// ----
 const makeImagesTemplate = galleryItems.map(makeImagesTemplateMarkup).join("");
 refs.gallery.insertAdjacentHTML("beforeend", makeImagesTemplate);
 // <<--
@@ -145,23 +145,35 @@ function overlayClick(event) {
 
 // Фукция обработки нажатых клавиш
 function pressKey(event) {
-    switch (event.key) {
+  switch (event.key) {
     case "Escape":
       modalClose();
       break;
     case "ArrowLeft":
       // console.log(Boolean(refs.gallery.children[indexOpenImg].previousElementSibling));
       if (refs.gallery.children[indexOpenImg].previousElementSibling) {
-        refs.linhtboxImg.src = refs.gallery.children[indexOpenImg].previousElementSibling.childNodes[1].childNodes[1].dataset.source;
-        refs.linhtboxImg.alt = refs.gallery.children[indexOpenImg].previousElementSibling.childNodes[1].childNodes[1].alt;
+        refs.linhtboxImg.src =
+          refs.gallery.children[
+            indexOpenImg
+          ].previousElementSibling.childNodes[1].childNodes[1].dataset.source;
+        refs.linhtboxImg.alt =
+          refs.gallery.children[
+            indexOpenImg
+          ].previousElementSibling.childNodes[1].childNodes[1].alt;
         indexOpenImg--;
       }
       break;
     case "ArrowRight":
       // console.log(Boolean(refs.gallery.children[indexOpenImg].nextElementSibling));
       if (refs.gallery.children[indexOpenImg].nextElementSibling) {
-        refs.linhtboxImg.src = refs.gallery.children[indexOpenImg].nextElementSibling.childNodes[1].childNodes[1].dataset.source;
-        refs.linhtboxImg.alt = refs.gallery.children[indexOpenImg].nextElementSibling.childNodes[1].childNodes[1].alt;
+        refs.linhtboxImg.src =
+          refs.gallery.children[
+            indexOpenImg
+          ].nextElementSibling.childNodes[1].childNodes[1].dataset.source;
+        refs.linhtboxImg.alt =
+          refs.gallery.children[
+            indexOpenImg
+          ].nextElementSibling.childNodes[1].childNodes[1].alt;
         indexOpenImg++;
       }
       break;
